@@ -171,8 +171,8 @@ if __name__ == '__main__':
     test_db.create_file_table('test')
 
     # Insert two registers
-    test_id: str = test_db.insert('test', {'hola': 'mundo'})
-    test_id_2: str = test_db.insert('test', {'username': 'edward1808'})
+    test_id: str = test_db.insert('test', {'hello': 'world'})
+    test_id_2: str = test_db.insert('test', {'username': 'john_wick'})
 
     # Update first register
     test_db.update('test', test_id, {'hola': 'Mundo'})
@@ -180,7 +180,7 @@ if __name__ == '__main__':
 
     # Update first and second register
     test_db.update('test', test_id, {'hola': 'Mundo 2'})
-    test_db.update('test', test_id_2, {'username': 'ed1808'})
+    test_db.update('test', test_id_2, {'username': 'john'})
     print(test_db.fetch_all('test'))
 
     # Delete first register
