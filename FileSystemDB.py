@@ -10,6 +10,11 @@ from FSDBAbstract import FileSystemDbAbstract
 
 
 class FileSystemDB(FileSystemDbAbstract):
+    """
+    Creates a new instance of a FileSystemDB object.
+
+    :param db_name: str = The name of the database (directory) that will contain the tables
+    """
 
     __db_path: Path = Path()
 
@@ -22,6 +27,13 @@ class FileSystemDB(FileSystemDbAbstract):
             self.__db_path = Path(__file__).resolve().parent.joinpath(db_name)
 
     def create_file_table(self, file_table_name: str) -> bool:
+        """
+        It creates a file table in the database
+        
+        :param file_table_name: str
+        :type file_table_name: str
+        :return: A boolean value.
+        """
         try:
             table: Path = self.__db_path.joinpath(f'{file_table_name}.pickle')
 
@@ -34,6 +46,13 @@ class FileSystemDB(FileSystemDbAbstract):
             return False
 
     def fetch_all(self, table_name: str) -> List:
+        """
+        It opens a file, reads the file, and appends the data to a list
+        
+        :param table_name: str = 'table_name'
+        :type table_name: str
+        :return: A list of all the rows in the table.
+        """
         result_list: List = []
 
         with open(self.__db_path.joinpath(f'{table_name}.pickle'), 'rb') as f:
@@ -48,6 +67,15 @@ class FileSystemDB(FileSystemDbAbstract):
         return result_list
 
     def fetch_one(self, table_name: str, register_id: str) -> Dict:
+        """
+        It opens a file, reads it line by line, and if the line contains the key, it returns the line
+        
+        :param table_name: str = The name of the table you want to fetch from
+        :type table_name: str
+        :param register_id: str = '1'
+        :type register_id: str
+        :return: A dictionary
+        """
         result: Dict = {}
         temp: Any = Any
         with open(self.__db_path.joinpath(f'{table_name}.pickle'), 'rb') as f:
@@ -63,6 +91,17 @@ class FileSystemDB(FileSystemDbAbstract):
         return result
 
     def update(self, table_name: str, register_id: str, update_field: Dict) -> bool:
+        """
+        It opens a file, reads it, updates the data, and writes it back to the file
+        
+        :param table_name: str = The name of the table you want to update
+        :type table_name: str
+        :param register_id: str = 'id'
+        :type register_id: str
+        :param update_field: Dict = {'name': 'John Doe'}
+        :type update_field: Dict
+        :return: A boolean value.
+        """
         register_list: List = []
         temp_list: List = []
         jsonified_data: str = ''
@@ -95,6 +134,16 @@ class FileSystemDB(FileSystemDbAbstract):
             raise(error)
 
     def insert(self, table_name: str, data_to_insert: Dict) -> str:
+        """
+        It takes a table name and a dictionary of data to insert, and returns the id of the inserted
+        data
+        
+        :param table_name: str = The name of the table you want to insert data into
+        :type table_name: str
+        :param data_to_insert: Dict = {
+        :type data_to_insert: Dict
+        :return: A string
+        """
         try:
             register_id: str = str(uuid4())
 
@@ -114,6 +163,15 @@ class FileSystemDB(FileSystemDbAbstract):
             raise(e)
 
     def delete(self, table_name: str, delete_key: str) -> bool:
+        """
+        It deletes a register from a table
+        
+        :param table_name: str = The name of the table you want to delete the register from
+        :type table_name: str
+        :param delete_key: str = 'id'
+        :type delete_key: str
+        :return: A boolean value.
+        """
         register_list: List = []
         jsonified_data: str = ''
         reg_index: int = 0
